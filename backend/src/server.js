@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import conn from './config/conn.js'
-import useRouter from './routers/userRouter.js'
+import userRouter from './routers/userRouter.js'
 import authRouter from "./routers/authRouter.js"
 import dotenv from "dotenv"
 
@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended:true }))
 app.use(express.json())
 
 // Não precisa está autenticado para navegar nessa rota
-app.use("/", useRouter)
+app.use("/", userRouter)
 
 // Precisa está autenticado para navegar nessa rota
 app.use("/auth", authRouter)

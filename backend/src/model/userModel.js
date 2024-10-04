@@ -34,13 +34,13 @@ Users.beforeCreate( async (user) => {
 
 const syncDatabase = async () => {
     try{
-        conn.authenticate()
+        await conn.authenticate()
         console.log("Conexão estabelecida com sucesso!")
 
         await Users.sync()
-        console.log("Tabela criada com sucesso!")
+        console.log("Tabela de usuários criada com sucesso!")
     }catch(error){
-        console.log("Erro ao se conectar com a tabela!", error)
+        console.log("Erro ao criar a tabela!", error)
     }
 }
 

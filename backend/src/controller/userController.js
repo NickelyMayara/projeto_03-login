@@ -1,13 +1,16 @@
 import Users from "../model/userModel.js"
+import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
 export const createUsers = (req, res) => {
 
+    const {username, email, password} = req.body
+
     try{
         Users.create({
-            username: req.body.username,
-            email: req.body.email,
-            password: req.body.password
+            username,
+            email,
+            password
         })
         res.status(201).json("Usuário cadastrado com sucesso!")
     } catch(error) {
@@ -18,7 +21,7 @@ export const loginUser = async (req, res) => {
     const {email, password} = req.body
 
     try{
-        const user = Users.findOne({where: {email}}) //vai buscar se existe um dado igual ao que foi requisitado
+        const user = await Users.findOne({where: {email}}) //vai buscar se existe um dado igual ao que foi requisitado
         if(!user){
             return res.status(404).json("O usuário não foi encontrado!")
         }
@@ -33,7 +36,7 @@ export const loginUser = async (req, res) => {
             email: user.email
         }, process.env.JWT_SECRET, {expiresIn: 300})
 
-        res.status(200).json({message: "Login realizado com sucesso!"}, token)
+        res.status(200).json({message: "Login realizado com sucesso!", token})
 
     } catch(error){
         res.status(500).json(error)
